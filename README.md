@@ -24,6 +24,21 @@ npm run test:e2e
 Playwright использует Google Chrome (channel `chrome`), мобильные сценарии — эмуляцию Chromium. Если Chrome уже установлен, команду установки браузера пропустить. Playwright сам запускает Vite. Для проверки на физическом телефоне в доверенной
 локальной сети: `npm run dev -- --host 0.0.0.0`, затем открыть IP компьютера:5173.
 
+## CI
+
+`Frontend CI` проверяет push и PR в `main`, также доступен ручной запуск
+`workflow_dispatch`. Ubuntu 24.04, Node.js 22; `npm ci`, typecheck, lint, unit,
+build и Playwright Chrome с системными библиотеками. При сбое сохраняется
+`playwright-failure` на 7 дней. Один mobile mouse-drag skip ожидаем; mouse проверяется
+на desktop. Секреты и переменные окружения для приложения не требуются;
+workflow устанавливает `CI=true`. Deployment отсутствует.
+
+Локально повторить команды выше; браузер с системными библиотеками установить
+через `npx playwright install --with-deps chrome`. Для повторения параметров CI:
+`npm run test:e2e -- --forbid-only --workers=1 --reporter=line,html`.
+Результаты проверок, разбор advisories, проверка на GitHub и handoff REL-03:
+[REL-02 CI report](docs/REL-02_CI_REPORT.md). Реальный Actions run пока NOT_RUN.
+
 ## Поведение
 
 На главной выбрать «Исследовать». Клик/касание фигуры показывает маркеры,
