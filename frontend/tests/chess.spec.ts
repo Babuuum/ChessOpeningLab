@@ -24,9 +24,9 @@ test('C06-C10 selection, preview, move, history and side reset',async({page,isMo
   await tapSquare(page,'e2',isMobile);await expect(page.getByTestId('preview-info')).toContainText('Красные');
   await page.getByRole('button',{name:/Начать заново/}).click();await expect(page.getByTestId('preview-info')).toContainText('Выберите фигуру');
 });
-test('C11 responsive layout and honest training placeholder',async({page})=>{
+test('C11 responsive layout and training catalog',async({page})=>{
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
-  await page.getByRole('button',{name:/Тренировка/}).click();await expect(page.getByText('Это placeholder.',{exact:false})).toBeVisible();
+  await page.getByRole('button',{name:/Тренировка/}).click();await expect(page.getByRole('region',{name:'Каталог дебютов'})).toBeVisible();
 });
 test('C11 mouse drag plays e4',async({page,isMobile})=>{
   test.skip(isMobile,'Mouse hardware scenario: mobile uses touch in C06-C10');

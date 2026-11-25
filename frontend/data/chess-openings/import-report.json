@@ -1,0 +1,8 @@
+{
+  "sourceRows": 3865,
+  "validRows": 3865,
+  "duplicates": 0,
+  "rejected": [],
+  "selected": 100,
+  "selection": "10 shortest lines per family, then ECO/name/UCI lexical order; not popularity"
+}

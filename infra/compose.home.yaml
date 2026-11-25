@@ -1,0 +1,29 @@
+name: chessopening-home
+
+services:
+  frontend:
+    image: ${FRONTEND_IMAGE:?Set a verified local image ID or registry digest}
+    pull_policy: never
+    user: "10001:10001"
+    read_only: true
+    init: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "${FRONTEND_BIND_IP:-127.0.0.1}:${FRONTEND_PORT:-8080}:8080"
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m,mode=1777
+      - /config:rw,noexec,nosuid,size=8m,uid=10001,gid=10001,mode=0700
+      - /data:rw,noexec,nosuid,size=8m,uid=10001,gid=10001,mode=0700
+    restart: unless-stopped
+    stop_grace_period: 10s
+    pids_limit: 64
+    cpus: 1.0
+    mem_limit: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
