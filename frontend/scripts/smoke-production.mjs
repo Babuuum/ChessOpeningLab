@@ -64,7 +64,8 @@ try {
       await page.getByRole('button', { name: 'Каталог', exact: true }).click();
       await page.getByRole('searchbox').fill('C60 Ruy Lopez');
       await page.getByRole('button', { name: 'Исследовать C60 Ruy Lopez', exact: true }).click();
-      await expect(page.getByTestId('opening-names')).toContainText('C60 Ruy Lopez');
+      await expect(page.getByTestId('selected-opening')).toContainText('C60 Ruy Lopez');
+      await expect(page.getByTestId('opening-next')).toHaveText('e4');
       await page.getByRole('button', { name: 'Тренировка ↗', exact: true }).click();
       await page.getByRole('searchbox').fill('C60 Ruy Lopez');
       await page.getByRole('button', { name: 'Тренировать C60 Ruy Lopez', exact: true }).click();

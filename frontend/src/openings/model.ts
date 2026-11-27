@@ -44,6 +44,18 @@ export function searchOpenings(openings: Opening[], query: string) {
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   return openings.filter(o => words.every(word => `${o.eco} ${o.name}`.toLowerCase().includes(word)));
 }
+/** Selected-line guidance follows the viewed position, including transpositions/history. */
+export function openingProgress(index: OpeningIndex, opening: Opening, game: Chess) {
+  const path = index.paths.get(opening.id);
+  if (!path) throw new Error(`Opening not indexed: ${opening.id}`);
+  const ply = path.lastIndexOf(positionKey(game));
+  if (ply < 0) return { status: 'outside' as const };
+  if (ply === opening.moves.length) return { status: 'complete' as const };
+  const next = index.nodes.get(path[ply])!.next.get(opening.moves[ply])!;
+  return { status: 'next' as const, next };
+}
+
+/** Replay utility for inspecting the terminal position, not for starting exploration. */
 export function loadOpening(opening: Opening, side: Color): GameState {
   return opening.moves.reduce((state, uci) => play(state, uci.slice(0, 2) as Square, uci.slice(2, 4) as Square, uci[4] as Promotion | undefined), createGame(side));
 }
